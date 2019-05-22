@@ -1,0 +1,17 @@
+[0] Config.pm:304> INFO - This is Biber 2.12
+[0] Config.pm:307> INFO - Logfile is 'report.blg'
+[36] biber-MSWIN32:315> INFO - === 
+[75] Biber.pm:371> INFO - Reading 'report.bcf'
+[186] Biber.pm:889> INFO - Found 1 citekeys in bib section 0
+[203] Biber.pm:4093> INFO - Processing section 0
+[220] Biber.pm:4254> INFO - Looking for bibtex format file 'electoralreform.bib' for section 0
+[224] bibtex.pm:1523> INFO - LaTeX decoding ...
+[231] bibtex.pm:1340> INFO - Found BibTeX data source 'electoralreform.bib'
+[238] Utils.pm:193> WARN - month field 'Sep' in entry 'aec:redis' is not an integer - this will probably not sort properly.
+[255] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[256] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[256] Biber.pm:3921> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[256] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
+[264] bbl.pm:636> INFO - Writing 'report.bbl' with encoding 'UTF-8'
+[265] bbl.pm:739> INFO - Output to report.bbl
+[268] Biber.pm:110> INFO - WARNINGS: 1
