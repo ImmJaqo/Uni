@@ -21,21 +21,48 @@
   \datalist[entry]{nyt/global//global/global}
     \entry{aec:redis}{online}{}
       \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=92faa52b88e2ba51bfe190d683280f40}{%
-           family={Commission},
-           familyi={C\bibinitperiod},
-           given={Australian\bibnamedelima Electoral},
-           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
-           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=370b9f0b9ab5aa1630d749bbbcfb4d27}{%
+           family={{Australian Electoral Commission}},
+           familyi={A\bibinitperiod}}}%
       }
-      \strng{namehash}{92faa52b88e2ba51bfe190d683280f40}
-      \strng{fullhash}{92faa52b88e2ba51bfe190d683280f40}
-      \strng{bibnamehash}{92faa52b88e2ba51bfe190d683280f40}
-      \strng{authorbibnamehash}{92faa52b88e2ba51bfe190d683280f40}
-      \strng{authornamehash}{92faa52b88e2ba51bfe190d683280f40}
-      \strng{authorfullhash}{92faa52b88e2ba51bfe190d683280f40}
-      \field{sortinit}{C}
-      \field{sortinithash}{963e9d84a3da2344e8833203de5aed05}
+      \strng{namehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{fullhash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{bibnamehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{authorbibnamehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{authornamehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{authorfullhash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{9}
+      \field{title}{Redistribution overview}
+      \field{year}{2011}
+      \verb{urlraw}
+      \verb https://www.aec.gov.au/Electorates/Redistributions/Overview.htm
+      \endverb
+      \verb{url}
+      \verb https://www.aec.gov.au/Electorates/Redistributions/Overview.htm
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{ynt/global//global/global}
+    \entry{aec:redis}{online}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=370b9f0b9ab5aa1630d749bbbcfb4d27}{%
+           family={{Australian Electoral Commission}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{fullhash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{bibnamehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{authorbibnamehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{authornamehash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \strng{authorfullhash}{370b9f0b9ab5aa1630d749bbbcfb4d27}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}

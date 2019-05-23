@@ -51,11 +51,14 @@
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
+      <file>bath.dbx</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>standard.bbx</file>
       <file>authoryear.bbx</file>
-      <file>authoryear.cbx</file>
+      <file>bath.bbx</file>
+      <file>authoryear-comp.cbx</file>
+      <file>bath.cbx</file>
       <file>biblatex.cfg</file>
       <file>english.lbx</file>
     </requires>
@@ -79,7 +82,7 @@
       <file>report.bcf</file>
     </requires>
     <requires type="editable">
-      <file>electoralreform.bib</file>
+      <file>spaghetti.bib</file>
     </requires>
   </external>
 </requests>
