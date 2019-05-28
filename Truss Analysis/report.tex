@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{stanli}
+\begin{document}
+
+\begin{tikzpicture}
+  \scaling{2}
+  \point{a}{0}{0};
+  \point{b}{0}{1};
+  \point{c}{1}{1};
+  \point{d}{1}{0};
+  \point{e}{2}{0};
+  \point{f}{2}{1};
+  \point{g}{3}{1};
+  \point{h}{3}{0};
+  \point{i}{4}{0};
+  \point{j}{4}{1};
+  \point{k}{5}{1};
+  \point{l}{5}{0};
+  \point{m}{6}{0};
+  \point{n}{6}{1};
+
+  \beam{2}{a}{m};
+  \beam{2}{b}{n};
+  \beam{2}{a}{b};
+  \beam{2}{n}{m};
+  \beam{2}{c}{d};
+  \beam{2}{f}{e};
+  \beam{2}{g}{h};
+  \beam{2}{i}{j};
+  \beam{2}{l}{k};
+
+  \beam{2}{b}{d};
+  \beam{2}{c}{e};
+  \beam{2}{f}{h};
+  \beam{2}{h}{j};
+  \beam{2}{i}{k};
+  \beam{2}{l}{n};
+
+  \load{1}{a}[270];
+  \load{1}{m}[270];
+  \load{1}{b}[90];
+  \load{1}{c}[90];
+  \load{1}{f}[90];
+  \load{1}{g}[90];
+  \load{1}{j}[90];
+  \load{1}{k}[90];
+  \load{1}{n}[90];
+
+  \dimensioning{1}{a}{d}{-1.5}[$11$\,m]  \dimensioning{1}{d}{e}{-1.5}[$11$\,m]  \dimensioning{1}{e}{h}{-1.5}[$11$\,m]  \dimensioning{1}{h}{i}{-1.5}[$11$\,m]  \dimensioning{1}{i}{l}{-1.5}[$11$\,m]  \dimensioning{1}{l}{m}{-1.5}[$11$\,m]  \dimensioning{2}{a}{b}{-.5}[$9.5$\,m]
+
+  \notation{1}{a}{A}
+  \notation{1}{b}{B}
+  \notation{1}{c}{C}
+  \notation{1}{d}{D}
+  \notation{1}{e}{E}  \notation{1}{f}{F}
+  \notation{1}{g}{G}
+  \notation{1}{h}{H}[below right]
+  \notation{1}{i}{I}[above left]
+  \notation{1}{j}{J}
+  \notation{1}{k}{K}
+  \notation{1}{l}{L} [above left] \notation{1}{m}{M}[above left]
+  \notation{1}{n}{N}
+
+
+
+\end{tikzpicture}
+
+\end{document}
