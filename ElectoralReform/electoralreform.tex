@@ -1,0 +1,101 @@
+\documentclass{report}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+
+\begin{document}
+  \title{Reforming Australia's Electoral System}
+  \date{\today}
+  \author{PM-ME-SPRINKLES}
+  \maketitle
+
+  \tableofcontents
+
+  \chapter{Introduction}
+  \section{Overview}
+  Australia is a relatively new country that has had a number of electoral reforms to it over the years. Currently, Australia has a bicameral parliament with one house (House of Representatives) being elected under single-member electorates using an alternative vote voting system. While it's other house (Senate) is elected on a state by state basis through a single transferable vote voting system where each state has an equal number of members. Currently, Australia has 151 House of Representatives electorates which each represent approximately 110,000 people. While in the Senate, each state is represented by 12 Senators where half of them go for an election every 3 years however, these states vary in population quite extensively leading to a large variance in the number of people each Senator represents.
+
+  \section{Redistributions}
+  \subsection{Population Quota}
+  Before we get into the intracite details regarding redistributions, it's important for us to understand the principle of a population quota. The population quota can be seen as the average number of members in each electorate and is defined by equation 1.1.
+  \begin{equation}
+    \frac{P_s}{2\times T_s}=Q_p
+  \end{equation}
+  Where, $P_s$ is defined as the total number of people in all of the states and $T_s$ is defined as the total number of Senators for all states. This number can then be used in conjunction with the population of each state to get the entitlement of each state through equation 1.2.
+  \begin{equation}
+    \frac{P}{Q_p} = E
+  \end{equation}
+  Where $P$ is the number of people in that state and $Q_p$ is the population quota. This resultant entitlement is then rounded to get the number of divisions that the state should have. These equations are then used to produce a table similar to table 1.1 to get the entitlement for each state \cite{aec:2017redis}.
+
+  \begin{table}[h]
+  \label{tab:2017Redis}
+  \begin{tabular}{l|l|c|r|r}
+  State      & Population             & Quota            & Entitlement & Divisions \\
+ \hline \hline
+  NSW        & 7 797 791              & \multirow{8}{*}{164 788.6181}     & 47.32       & 47        \\
+  Victoria   & 6 244 227              &                  & 37.89       & 38        \\
+  Queensland & 4 883 739              &                  & 29.64       & 30        \\
+  WA         & 2 567 788              &                  & 15.58       & 16        \\
+  SA         & 1 716 966              &                  & 10.42       & 10        \\
+  Tasmania   & 5 190 50               &                  & 3.15        & 5*        \\
+  ACT        & 419 256                &                  & 2.54        & 3         \\
+  NT         & 247 512                &                  & 1.50        & 2         \\
+ \hline
+  $\Sigma$   & $P_s = $ 23 729 561    &                  &             & 151       \\
+
+  \end{tabular}
+  \caption{2017 Redistribution}
+  \end{table}
+
+  \subsection{Timing of Redistributions}
+  The number of people in each electorate and the number of electorates in each state is updated when any of the following occurs \cite{aec:redis}:
+  \begin{itemize}
+    \item The number of divisions that a state or territory is entitled to, changes as described in subsection 1.2.1.
+    \item The number of people in one division in a state or territory deviates from the average divisional population in the state by 10\% for more than two months.
+    \item There has not been a redistribution for greater than seven years.
+  \end{itemize}
+  Once either of these events occur then the redistribution process begins.
+
+  \subsection{The Redistribution Process}
+  Compared to most other countries, Australia's electoral borders are decided by an impartial commission known as the Australian Electoral Commission. This Commission brings together a committee which consists of the Electoral Commissioner, the Electoral Officer for the state concerned, the State's Surveyor-General and the State Auditor-General in each of the states which need redistributing. \newline
+  This redistribution process begins by inviting members of the public to lodge suggestions regarding how a redistribution takes place, this period lasts for 30 days plus an additional 14 days for extra comments. \newline
+  Once this initial public suggestion period takes place, the committee then comes together and publishes a possible redistribution for public objections. This public objection period lasts for an extra 28 days plus an additional 14 days for extra comments on those objections. \newline
+  Following this, the objections are then considered by the committee along with an additional 2 members of the Electoral Commission.
+
+  \section{The Goal of an Electoral System}
+  \subsection{Gallagher Index}
+  One of the most basic forms to assess an electoral system's representation of the people is by obtaining the gallagher index \textit{(least squares index)} for the election and is defined by equation 1.3.
+
+  \begin{equation}
+    \textrm{LSq}=\sqrt{\frac{1}{2} \sum_{i=1}^n (V_i-S_i)^2}
+  \end{equation}
+  Where $V_i$ is defined as the percentage of votes for a party, $S_i$ is defined as the perentage of seats for a party for each political party ($i=1,...,n$). It's usage can be best seen using the results of the latest Australian election seen in table 1.2.
+
+  \begin{table}[h]
+  \begin{tabular}{lrrrrr}
+  \multicolumn{1}{c}{\textbf{Party}} & \multicolumn{1}{c}{\textbf{\% of votes}} & \multicolumn{1}{c}{\textbf{seats won}} & \multicolumn{1}{c}{\textbf{\% of seats}} & \multicolumn{1}{c}{\textbf{difference}} & \multicolumn{1}{c}{\textbf{\begin{tabular}[c]{@{}c@{}}difference\\ squared\end{tabular}}} \\
+  \hline Coalition                          & 41.53                                    & 78                                     & 51.66                                    & 10.126                                  & 102.528                                                                                   \\
+  Labor                              & 33.80                                    & 67                                     & 44.37                                    & 10.571                                  & 111.743                                                                                   \\
+  Greens                             & 9.99                                     & 1                                      & 0.66                                     & (9.328)                                 & 87.007                                                                                    \\
+  Katter                             & 0.50                                     & 1                                      & 0.66                                     & 0.162                                   & 0.026                                                                                     \\
+  CA                                 & 0.34                                     & 1                                      & 0.66                                     & 0.322                                   & 0.104                                                                                     \\
+  Independent                        & 3.48                                     & 3                                      & 1.99                                     & (1.493)                                 & 2.230                                                                                     \\
+  Other                              & 10.36                                    & 0                                      & 0                                        & (10.36)                                 & 107.330                                                                                   \\
+  \hline Total                              & 100.00                                   & 151                                    & 100.00                                   & (0.00)                                  & 410.968                                                                                   \\ \hline
+                                     & \multicolumn{1}{l}{}                     & \multicolumn{1}{l}{}                   & \multicolumn{1}{l}{}                     & \multicolumn{1}{l}{}                    & \multicolumn{1}{l}{}                                                                      \\ \cline{6-6}
+                                     & \multicolumn{1}{l}{}                     & \multicolumn{1}{l}{}                   & \multicolumn{1}{l}{}                     & \multicolumn{1}{l|}{Halved}             & \multicolumn{1}{r|}{205.484}                                                              \\ \cline{6-6}
+                                     & \multicolumn{1}{l}{}                     & \multicolumn{1}{l}{}                   & \multicolumn{1}{l}{}                     & \multicolumn{1}{l|}{Square Root}        & \multicolumn{1}{r|}{14.335}                                                               \\ \cline{6-6}
+  \end{tabular}
+  \caption{2019 Australian Federal Election}
+  \label{tab:2019Gallagher}
+  \end{table}
+
+  However, there are of course some issues with the gallagher index, the first of which is that it only takes into account the primary vote of each party. In Australia, voting is done using instant-runoff voting and ideally an electoral system would allow for preferencing to occur so that voters do not risk vote splitting in an election. While the makeup of parliament should reflect the primary vote of the populace ultimately, it cannot always be feasible and thus an additional assessment should be used to assess how representative the parliamentary makeup is.
+
+  \chapter{Analysis of different electoral systems}
+
+
+  \newpage
+  \bibliography{electoralreform}
+  \bibliographystyle{ieeetr}
+
+\end{document}

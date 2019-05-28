@@ -1,0 +1,12 @@
+PWD C:/Users/MemeMachine/Desktop/ElectoralReform/trusses
+INPUT e:/texlive/2019/texmf.cnf
+INPUT e:/texlive/2019/texmf-dist/web2c/texmf.cnf
+INPUT e:/texlive/2019/texmf-var/web2c/pdftex/latex.fmt
+INPUT sample.tex
+OUTPUT sample.log
+INPUT e:/texlive/2019/texmf-dist/tex/latex/base/report.cls
+INPUT e:/texlive/2019/texmf-dist/tex/latex/base/report.cls
+INPUT e:/texlive/2019/texmf-dist/tex/latex/base/size11.clo
+INPUT e:/texlive/2019/texmf-dist/tex/latex/base/size11.clo
+INPUT e:/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT e:/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr10.tfm

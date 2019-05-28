@@ -1,0 +1,606 @@
+\tikzset{
+	 every node/.style={outer sep = 2pt, inner sep = 2pt, fill = white}
+}
+
+\tikzstyle{elasticcurve}=[cyan, very thick]
+\tikzstyle{deflection}=[|<->|, magenta]
+\tikzstyle{tangent}=[teal]
+
+\begin{luacode}
+
+----------------------------------------------------------------------
+-- DEFAULT SETUP
+----------------------------------------------------------------------
+
+    scale = 0.35;
+    xscale = 1.0;
+	yscale = 1.0;
+	dimXOff = 4.25;
+	dimYOff = 2.75;
+	distUnit = "ft";
+	loadUnit = "k";
+
+	dimXSymb = false;
+	HDSymb = {};
+	
+	moreTikzCommand = false;
+----------------------------------------------------------------------
+-- OBJECTS
+----------------------------------------------------------------------
+
+function origin()
+	local data = {x = 0, y = 0, name = "O"};
+	local obj = {};
+	
+	function obj.getX() return data.x; end
+	function obj.getY() return data.y; end
+	function obj.getName() return data.name; end
+	
+	return obj;
+end
+
+function node(A, dx, dy, name)
+
+	local x = A.getX() + dx;
+	local y = A.getY() + dy;
+	
+	local data = {x = x, y = y, name = name};
+	local obj = {};
+	
+	function obj.getX() return data.x; end
+	function obj.getY() return data.y; end
+	function obj.getName() return data.name; end
+	
+	return obj;
+end
+
+
+function pointLoad (P, Q, dist, dir, val, name)
+	
+	local dx = Q.getX() - P.getX();
+	local dy = Q.getY() - P.getY();
+	
+	if (dx < 0.0001) then dx = 0.000001; end
+
+	local th = math.atan(dy / dx);
+	
+	local x = P.getX() + dist * math.cos(th);
+	local y = P.getY() + dist * math.sin(th);
+	
+	-------------------------------------------
+	local data = {x = x, y = y, dir = dir, val = val, name = name};
+	local obj = {};
+	
+	function obj.getX() return data.x; end
+	function obj.getY() return data.y; end
+	function obj.getDir() return data.dir; end
+	function obj.getVal() return data.val; end
+	function obj.getName() return data.name; end
+	
+	return obj;
+	
+end
+
+
+function support(A, suppType, angle)
+
+	local x = A.getX();
+	local y = A.getY();
+	local suppType = suppType;
+	local angle = angle;
+	
+	local data = {x = x, y = y, suppType = suppType, angle = angle};
+	local obj = {};
+	
+	function obj.getX() return data.x; end
+	function obj.getY() return data.y; end
+	function obj.getType() return data.suppType; end
+	function obj.getAngle() return data.angle; end
+	
+	return obj;
+end
+
+
+function distLoad (S, E, dir, val)
+	local data ={	sx = S.getX(),
+					sy = S.getY(),
+					ex = E.getX(),
+					ey = E.getY(),
+					dir = dir,
+					val = val
+				};
+				
+	local obj = {};
+	
+	function obj.getSX() return data.sx; end
+	function obj.getSY() return data.sy; end
+	function obj.getEX() return data.ex; end
+	function obj.getEY() return data.ey; end
+	function obj.getDir() return data.dir; end
+	function obj.getVal() return data.val; end
+	
+	return obj;
+end
+
+----------------------------------------------------------------------
+-- DRAW
+----------------------------------------------------------------------
+
+
+function drawElement (P, Q)
+	local px = P.getX();
+	local py = P.getY();
+	
+	local qx = Q.getX(); 
+	local qy = Q.getY();
+	
+	print("\\draw[ultra thick] (" .. px .. "," .. py .. ") -- (" .. qx .. "," .. qy .. ");" );
+	print("\\draw (" .. px .. "," .. py .. ") node[above left] {$" .. P.getName().. "$};" );
+	print("\\draw (" .. qx .. "," .. qy .. ") node[above left] {$" .. Q.getName().. "$};" );
+
+end
+
+function drawLoad (L)
+
+	local dir = L.getDir();
+	
+	local x, y, val, name, label;
+	
+	if ( dir == "r" or dir == "rt" or dir == "l" or dir == "lt" or dir == "g" or dir == "gt" or dir == "u" or dir == "ur" or dir == "gr" ) then
+		x = L.getX();
+		y = L.getY();
+		
+		val = L.getVal();
+		name = L.getName();
+		label = "$" .. val .. "$ " .. loadUnit ;
+	end
+	
+	---------------------
+	-- Point Load
+	---------------------
+	
+	-- Rightward
+	
+	if(dir == "r") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") ++(-2, 0) -- ++(2,0) ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[] at ++(-2.75, 0) {" .. label .. "};" );
+		print("\\draw (" .. x .. "," .. y .. ") node[right] {$" .. name .. "$};" );
+		do return end;
+	end
+	
+	if(dir == "rt") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") -- ++(2,0) ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[] at ++(2.75, 0) {" .. label .. "};" );
+		--print("\\draw (" .. x .. "," .. y .. ") node[] {$" .. name .. "$};" );
+		do return end;
+	end
+	
+	-- Leftward
+	
+	if(dir == "l") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") ++(2, 0) -- ++(-2,0) ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[] at ++(2.75, 0) {" .. label .. "};" );
+		print("\\draw (" .. x .. "," .. y .. ") node[left] {$" .. name.. "$};" );
+		do return end;
+	end
+	
+
+	if(dir == "lt") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") -- ++(-2,0) ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[] at ++(-2.75, 0) {" .. label .. "};" );
+		print("\\draw (" .. x .. "," .. y .. ") node[left] {$" .. name.. "$};" );
+		do return end;
+	end
+	
+	-- Gravity
+	
+	if(dir == "g") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") ++(0, 2) -- (" .. x .. "," .. y .. ") ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[below right] at ++(0, 2.5) {" .. label .. "};" );
+		print("\\draw (" .. x .. "," .. y .. ") node[above left] {$" .. name .. "$};" );
+		do return end;
+	end
+	
+	if(dir == "gt") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") -- ++(0, -2) ;" );
+		print("\\draw (" .. x .. "," .. y .. ") ++(0, -1)  node[right]  {" .. label .. "};" );
+		--print("\\draw (" .. x .. "," .. y .. ") node[above left] {$" .. name .. "$};" );
+		do return end;
+	end
+	
+	-- Upward
+	
+	if(dir == "u") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") ++(0, -2) -- (" .. x .. "," .. y .. ") ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[above right] at ++(0, -2.5) {" .. label .. "};" );
+		print("\\draw (" .. x .. "," .. y .. ") node[above] {$" .. name .. "$};" );
+		do return end;
+	end
+	
+	if(dir == "ur") then
+		print("\\draw[-latex, very thick] (" .. x .. "," .. y .. ") ++(0, -3) -- (" .. x .. "," .. y - 1 .. ") ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[above right] at ++(0, -2.5) {" .. label .. "};" );
+		do return end;
+	end
+	
+	if(dir == "gr") then
+		print("\\draw[latex-, very thick] (" .. x .. "," .. y .. ") ++(0, -3) -- (" .. x .. "," .. y - 1 .. ") ;" );
+		print("\\draw (" .. x .. "," .. y .. ") node[above right] at ++(0, -2.5) {" .. label .. "};" );
+		do return end;
+	end
+	
+	
+	---------------------
+	-- Moment
+	---------------------
+	if ( dir == "mcl" or dir == "mcr" or dir == "mal" or dir == "mar") then
+		
+		x = L.getX();
+		y = L.getY();
+		
+		val = L.getVal();
+		name = L.getName();
+		label = "$" .. name  .. val .. "$ " .. loadUnit .. distUnit ;
+		
+	end
+	
+	if ( dir == "mcl" or dir == "mcr" or dir == "mal" or dir == "mar") then
+		
+		if (dir == "mar") then
+			print("\\draw[-latex, very thick, shorten >=-5pt] ([shift=(-110:1.20)]" .. x .. ", " .. y .. ") arc (-110:110:1.20);" );
+		end
+		
+		if (dir == "mal") then
+			print("\\draw[-latex, very thick, shorten >=-5pt] ([shift=(70:1.20)]" .. x .. ", " .. y .. ") arc (70:290:1.20);" );
+		end
+		
+		if (dir == "mcr") then
+			print("\\draw[latex-, very thick, shorten <=-5pt] ([shift=(-110:1.20)]" .. x .. ", " .. y .. ") arc (-110:110:1.20);" );
+		end
+		
+		if (dir == "mcl") then
+			print("\\draw[latex-, very thick, shorten <=-5pt] ([shift=(70:1.20)]" .. x .. ", " .. y .. ") arc (70:290:1.20);" );
+		end
+		
+		
+		print("\\draw (" .. x .. "," .. y .. ") node[above] at ++(0, 1.25) {" .. label .. "};" );
+		--print("\\draw (" .. x .. "," .. y .. ") node[above] at ++(0, 1.25) {$" .. name .. "$};" );
+		
+		do return end;
+	end
+
+	---------------------
+	-- Distributed Load
+	---------------------
+	
+	local sx, sy, ex, ey, val, len;
+		
+	if ( dir == "gd" or dir == "ld" or dir == "rd" ) then
+		sx = L.getSX();
+		sy = L.getSY();
+		
+		ex = L.getEX();
+		ey = L.getEY();
+		
+		val = L.getVal();
+		
+		if ( dimXSymb == false) then
+			label = "$" .. val .. "$ " .. loadUnit .. "/" .. distUnit ;
+		else
+			label = "$" .. val .. "$ ";
+		end
+		
+	end
+	
+	local arrowLen = 1.50;
+	local len;
+	
+	if(dir == "rd") then
+		len = ey - sy;
+		for i = 0, 10 do
+			print("\\draw[-latex] (" .. sx .. "," .. sy .. ") ++(-" .. arrowLen .. ", " .. 0.1 * i * len .. ") -- ++(" .. arrowLen .. ", 0) ;" );
+		end
+		print("\\draw (" .. sx .. "," .. sy .. ") ++(-" .. arrowLen .. ", 0) -- ++(0, " .. len .. ") ;" );
+		print("\\draw (" .. sx .. "," .. sy .. ") node[rotate=90] at ++(-1.50, " .. len/2 ..") {" .. label .. "};" );
+		do return end;
+	end
+
+	if(dir == "ld") then
+		len = ey - sy;
+		for i = 0, 10 do
+			print("\\draw[-latex] (" .. sx .. "," .. sy .. ") ++(1, " .. 0.1 * i * len .. ") -- ++(-1, 0) ;" );
+		end
+		print("\\draw (" .. sx .. "," .. sy .. ") ++(1, 0) -- ++(0, " .. len .. ") ;" );
+		print("\\draw (" .. sx .. "," .. sy .. ") node[rotate=90] at ++(1.50, " .. len/2 ..") {" .. label .. "};" );
+		do return end;
+	end
+	
+	
+	if(dir == "gd") then
+		
+		len = ex - sx;
+		for i = 0, 10 do
+			print("\\draw[-latex] (" .. sx .. "," .. sy .. ") ++(" .. 0.1 * i * len .. ", " .. arrowLen .. ") -- ++(0, -" .. arrowLen .. ") ;" );
+		end
+		print("\\draw (" .. sx .. "," .. sy .. ") ++(0, " .. arrowLen .. ") -- ++(" .. len .. ", 0) ;" );
+		print("\\draw (" .. sx .. "," .. sy .. ") node at ++(" .. len/2 ..", 1.50) {" .. label .. "};" );
+		do return end;
+	end
+	
+	do return end;
+	
+end
+
+
+function drawHinge (S)
+
+	local sx = S.getX();
+	local sy = S.getY();
+	local sa = S.getAngle();
+	
+	if (sa == nil) then sa = 0; end
+	
+	print("\\begin{scope}[rotate around={" .. sa .. ":(" .. sx .. "," .. sy  .. ")}]");
+	
+		print("\\draw[very thick] (" .. sx .. "," .. sy - 0.6 .. ") -- ++(-0.6, 0) -- ++(1.2, 0); ");
+		
+		-- Triangle
+		print("\\draw ( " .. sx .. "," .. sy .. "-.6) -- ++(.4, 0) -- (" .. sx .. "," ..  sy .. ");" );
+		print("\\draw ( " .. sx .. "," .. sy .. "-.6) -- ++(-.4, 0) -- (" .. sx .. "," ..  sy .. ");" );
+		
+		for i = 1, 10 do
+			print("\\draw (" .. sx ..  ", " ..  sy .. ") ++(" .. (-0.8 + 0.12 * i) .. ", -1.0) -- ++ (60 : 0.40);");
+		end
+		
+		print("\\draw[fill=white] (" .. sx .. "," .. sy .. ") circle (.15);");
+		
+	print("\\end{scope}");
+	
+end
+
+
+function drawRoller (S)
+
+	local sx = S.getX();
+	local sy = S.getY();
+	
+	--print("\\begin{scope}[scale=1.15] ");
+	
+		print("\\draw[very thick] (" .. sx .. "," .. sy - 0.6 .. ") -- ++(-0.6, 0) -- ++(1.2, 0); ");
+		
+		for i = 1, 10 do
+			print("\\draw (" .. sx ..  ", " ..  sy .. ") ++(" .. ( -0.8 + 0.12 * i) .. ", -1.0) -- ++ (60 : 0.40);");
+		end
+	
+		print("\\draw[fill=white] (" .. sx .. "," .. sy .. ") ++(0, -0.3) circle (.3);");
+	
+	--print("\\end{scope}");
+	
+end
+
+function drawInternalHinge (S)
+
+	local sx = S.getX();
+	local sy = S.getY();
+	
+	print("\\draw[fill=white] (" .. sx .. "," .. sy .. ") circle (.2);");
+	
+	
+end
+
+
+function drawFixed (S)
+	
+	local sx = S.getX();
+	local sy = S.getY();
+	local sa = S.getAngle();
+	
+	if (sa == nil) then sa = 0; end
+	
+	print("\\begin{scope}[rotate around={" .. sa .. ":(" .. sx .. "," .. sy  .. ")}]");
+
+		print("\\draw[very thick] (" .. sx .. "," .. sy .. ") -- ++(-0.6, 0) -- ++(1.2, 0); ");
+
+		for i = 1, 10 do
+			print("\\draw(" .. sx ..  ", " ..  sy .. ") ++(" .. (-0.8 + 0.12*i) .. ", -0.40) -- ++ (60 : 0.40);");
+		end
+		
+	print("\\end{scope}");
+	
+end
+
+function drawDimension (P, Q, dir, off, opt, par)
+	
+	local px = P.getX();
+	local py = P.getY();
+	
+	local qx = Q.getX();
+	local qy = Q.getY();
+	
+	local len;
+	local label;
+	local ext = 1.0;
+	
+	-- Horz Dim
+	
+	if (dir == "h") then
+		len = math.abs(qx - px);
+		label = len;
+		
+		if (opt == "symb") then
+			label = par;
+		end
+		
+		print("\\draw[<->] (0,-" .. off .. ") ++(" .. px .. ",0) -- node[] {$" .. label  .. "$ " .. distUnit .. "} ++(" .. len .. ", 0); " );
+		
+		print("\\draw[densely dotted] (" .. px .. ", -" .. off - ext/2  .. ") -- ++(0, -" .. ext .. ");");
+		print("\\draw[densely dotted] (" .. qx .. ", -" .. off - ext/2  .. ") -- ++(0, -" .. ext .. ");");
+		
+		do return end;
+	end
+	
+	-- Vert Left
+	
+	local sy;
+	if( py > qy ) then sy = qy; else sy = py; end
+	
+	if (dir == "vl") then
+		len = math.abs(qy - py);
+		
+		print("\\draw[<->] (" .. px .. "," .. sy.. ") ++(" .. -off .. ", 0) -- node[rotate=90] {" .. len .. " " .. distUnit .. "} ++(0, " .. len .. "); " );
+		
+		print("\\draw[densely dotted] (" .. px - off - ext/2 .. ", " .. py  .. ") -- ++(" .. ext .. ", 0);");
+		print("\\draw[densely dotted] (" .. px - off - ext/2 .. ", " .. qy  .. ") -- ++(" .. ext .. ", 0);");
+		
+		do return end;
+	end
+	
+	-- Vert Right
+	
+	if (dir == "vr") then
+		len = math.abs(qy - py);
+		
+		print("\\draw[<->] (" .. px .. "," .. sy.. ") ++(" .. off .. ", 0) -- node[rotate=90] {" .. len .. " " .. distUnit .. "} ++(0, " .. len .. "); " );
+		
+		print("\\draw[densely dotted] (" .. px + off - ext/2 .. ", " .. py  .. ") -- ++(" .. ext .. ", 0);");
+		print("\\draw[densely dotted] (" .. px + off - ext/2 .. ", " .. qy  .. ") -- ++(" .. ext .. ", 0);");
+		
+		do return end;
+	end
+	
+end
+
+function drawPointOnly(P)
+	
+	print("\\draw node[below right] at (" .. P.getX() .. "," .. P.getY() .. ") {$" .. P.getName().. "$};" );
+	    
+end
+
+----------------------------------------------------------------------
+-- MISC
+----------------------------------------------------------------------
+
+function getMidway(P, Q, name)
+	local x = 0.5 * ( P.getX() + Q.getX() );
+	local y = 0.5 * ( P.getY() + Q.getY() );
+	local name = name;
+	
+	local mid = node(O, x, y, name);
+	return mid;
+end
+
+function startTikz()
+	moreTikzCommand = true;
+	print("\\begin{tikzpicture}[scale=" .. scale .. ", font=\\small]");
+end
+
+function endTikz()
+	print("\\end{tikzpicture}");
+	moreTikzCommand = false;
+end
+
+----------------------------------------------------------------------
+-- DEFLECTION
+----------------------------------------------------------------------
+
+function drawElasticCurve(P, cp, Q, cq)
+	print("\\draw[elasticcurve] (" .. P.getX() .. "," .. P.getY() .. ") .. controls (" .. cp.getX() .. "," .. cp.getY() .. ") and (" .. cq.getX() .. "," .. cq.getY() .. ") ..  (" .. Q.getX() .. "," .. Q.getY() .. "); ");
+end
+
+function drawVertDef(P, Q, pos, lab)
+	if (pos == "l" ) then pos = "left" end
+	if (pos == "r" ) then pos = "right" end
+	
+	print("\\draw[deflection] (" .. P.getX() .. "," .. P.getY() .. ") -- node[" .. pos .. "] {$" .. lab .. "$} (" .. Q.getX() .. "," .. Q.getY() .. "); ");
+end
+
+function drawTangent(P, Q, pos, lab)
+	if (pos == "l" ) then pos = "left" end
+	if (pos == "r" ) then pos = "right" end
+	
+	print("\\draw[tangent] (" .. P.getX() .. "," .. P.getY() .. ") -- node[near end, fill=none, " .. pos .. "]{$" .. lab .. "$} (" .. Q.getX() .. "," .. Q.getY() .. "); ");
+end
+
+----------------------------------------------------------------------
+-- TEXT
+----------------------------------------------------------------------
+
+function placeText(text, x, y)
+	print("\\draw (" .. x .. "," .. y .. ") node{" .. text .. "}; " );
+end
+
+----------------------------------------------------------------------
+-- DRIVER FUNCTION
+----------------------------------------------------------------------
+
+function drawFrame(E, L, S, HD, VDL, VDR, P)
+	
+	if (moreTikzCommand == false) then
+		print("\\begin{tikzpicture}[scale=" .. scale .. ", xscale=" .. xscale .. ", yscale=" .. yscale .. ", font=\\small]");
+	end
+		
+	for i = 1, #L do
+		drawLoad(L[i]);
+	end
+	
+	for i = 1, #E do
+		drawElement(E[i][1], E[i][2]);
+	end
+	
+	for i = 1, #S do
+	
+		local suppType = S[i].getType();
+		
+		if (suppType == "h") then
+			drawHinge(S[i]);
+		elseif (suppType == "r") then
+			drawRoller(S[i]);
+		elseif (suppType == "ih") then
+			drawInternalHinge(S[i]);
+		else
+			drawFixed(S[i]);
+		end
+		
+	end
+
+	for i = 1, #HD - 1 do
+		if (dimXSymb == false) then
+			drawDimension(HD[i], HD[i + 1], "h", dimYOff);
+		else
+			drawDimension(HD[i], HD[i + 1], "h", dimYOff, "symb", HDSymb[i] );
+		end
+	end
+
+	if (VDL ~= nil) then
+		for i = 1, #VDL - 1 do
+			drawDimension(VDL[i], VDL[i + 1], "vl", dimXOff);
+		end
+	end
+
+	if (VDR ~= nil) then
+		for i = 1, #VDR - 1 do
+			drawDimension(VDR[i], VDR[i + 1], "vr", dimXOff);
+		end
+	end
+	
+	for i = 1, #E do
+		if (E[i][3] ~= nil) then
+			-- get mid point and place label
+			local point = getMidway(E[i][1], E[i][2], E[i][3]);
+			drawPointOnly(point);
+		end
+	end
+	
+	if (P ~= nil) then
+		for i = 1, #P do
+			drawPointOnly(P[i]);
+		end
+	end
+	
+	if (moreTikzCommand == false) then
+		print("\\end{tikzpicture}");
+	end
+	
+end
+
+\end{luacode}

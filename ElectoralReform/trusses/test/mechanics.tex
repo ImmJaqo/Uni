@@ -1,0 +1,75 @@
+\documentclass[11pt]{report}
+\usepackage{stanli}
+\usepackage{amsmath}
+\begin{document}
+
+\begin{tikzpicture}
+  \scaling{.2};
+
+  \point{a}{0}{0};
+  \point{b}{0}{9.5};
+  \point{c}{11.2}{9.5};
+  \point{d}{11.2}{0};
+  \point{e}{22.4}{0};
+  \point{f}{22.4}{9.5};
+  \point{g}{33.6}{9.5};
+  \point{h}{33.6}{0};
+  \point{i}{44.8}{0};
+  \point{j}{44.8}{9.5};
+  \point{k}{56}{9.5};
+  \point{l}{56}{0};
+  \point{m}{67.2}{0};
+  \point{n}{67.2}{9.5};
+
+  \beam{2}{a}{m};
+  \beam{2}{b}{n};
+  % \beam{2}{a}{b};
+  \internalforces{a}{b}{0}{0}[0][blue]
+  \beam{2}{c}{d};
+  \beam{2}{e}{f};
+  \beam{2}{g}{h};
+  \beam{2}{i}{j};
+  \beam{2}{k}{l};
+  \beam{2}{m}{n};
+
+  % \beam{2}{b}{d};
+  \internalforces{b}{d}{0}{0}[0][red]
+  \beam{2}{c}{e};
+  \beam{2}{f}{h};
+  \beam{2}{h}{j};
+  \beam{2}{i}{k};
+  \beam{2}{l}{n};
+
+  \support{2oo}{a};
+  \support{2oo}{m};
+
+  \lineload{1}{b}{g}[1.318][1.318][0.1];
+  \lineload{1}{g}{n}[1.318][1.318][0.1];
+
+  \dimensioning{1}{a}{d}{-1.5}[$11$\,cm];
+  \dimensioning{1}{d}{e}{-1.5}[$11$\,cm];
+  \dimensioning{1}{e}{h}{-1.5}[$11$\,cm];
+  \dimensioning{1}{h}{i}{-1.5}[$11$\,cm];
+  \dimensioning{1}{i}{l}{-1.5}[$11$\,cm];
+  \dimensioning{1}{l}{m}{-1.5}[$11$\,cm];
+
+  \dimensioning{2}{a}{b}{-1}[$9.5$\,cm];
+
+  \notation{1}{a}{A};
+  \notation{1}{b}{B}[below left];
+  \notation{1}{c}{C}[below left];
+  \notation{1}{d}{D};
+  \notation{1}{e}{E};
+  \notation{1}{f}{F}[below left];
+  \notation{1}{g}{G}[below right];
+  \notation{1}{h}{H}[below right];
+  \notation{1}{i}{I}[above left];
+  \notation{1}{j}{J}[below right];
+  \notation{1}{k}{K}[below right];
+  \notation{1}{l}{L}[above left];
+  \notation{1}{m}{M}[above left];
+  \notation{1}{n}{N}[below right];
+
+\end{tikzpicture}
+
+\end{document}
